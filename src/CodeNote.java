@@ -1,5 +1,5 @@
 /**
- * Created by ËïÆ½ on 2015/9/23.
+ * Created by å­™å¹³ on 2015/9/23.
  */
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +16,9 @@ public class CodeNote extends JFrame{
             "choice10","choice11","choice12","choice13","choice14"
     ));
     JPanel p1 = new JPanel();
-    JPanel p2 = new JPanel();//Ãæ°å,×°°´Å¥
-    JTextArea textEditor =new JTextArea();;//ÎÄ±¾Óò
-    JList listCode = new JList(s);//ÁĞ±í
+    JPanel p2 = new JPanel();//é¢æ¿,è£…æŒ‰é’®
+    JTextArea textEditor =new JTextArea();;//æ–‡æœ¬åŸŸ
+    JList listCode = new JList(s);//åˆ—è¡¨
 
     JScrollPane JSP=new JScrollPane(listCode,
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -33,11 +33,11 @@ public class CodeNote extends JFrame{
         super("CodeNote");
         Container con=getContentPane();
 
-        setBounds(225, 60, 900, 600);//ÉèÖÃ´°Ìå³õÊ¼»¯Î»ÖÃ¼°´óĞ¡
-        con.setLayout(null);//Éè¾ø¶Ô²¼¾Ö
-        con.setBackground(Color.gray);//±³¾°ÑÕÉ«
+        setBounds(225, 60, 900, 600);//è®¾ç½®çª—ä½“åˆå§‹åŒ–ä½ç½®åŠå¤§å°
+        con.setLayout(null);//è®¾ç»å¯¹å¸ƒå±€
+        con.setBackground(Color.gray);//èƒŒæ™¯é¢œè‰²
 
-        //ListÊÂ¼ş
+        //Listäº‹ä»¶
         listCode.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -47,10 +47,10 @@ public class CodeNote extends JFrame{
 
         FlowLayout flow=new FlowLayout();
 
-        btnNew=new JButton("ĞÂ½¨");
-        btnSave=new JButton("±£´æ");
-        btnDelete=new JButton("É¾³ı");
-        btnCheat=new JButton("²éÖØ");
+        btnNew=new JButton("æ–°å»º");
+        btnSave=new JButton("ä¿å­˜");
+        btnDelete=new JButton("åˆ é™¤");
+        btnCheat=new JButton("æŸ¥é‡");
 
         btnNew.setFocusPainted(false);
         btnSave.setFocusPainted(false);
@@ -87,7 +87,7 @@ public class CodeNote extends JFrame{
         JSP.setBounds(90,0,8,439);
         textEditor.setBounds(101, 1, 798, 599);
 
-        listCode.setVisibleRowCount(28);//Éè¶¨ÁĞ±í·½¿òµÄ¿É¼ûÀ¸Êı
+        listCode.setVisibleRowCount(28);//è®¾å®šåˆ—è¡¨æ–¹æ¡†çš„å¯è§æ æ•°
 
         btnNew.setPreferredSize(new Dimension(100, 30));
         btnSave.setPreferredSize(new Dimension(100, 30));
@@ -107,9 +107,9 @@ public class CodeNote extends JFrame{
 
         add(textEditor);
 
-        setVisible(true);//ÉèÖÃ´°ÌåÎª¿É¼û
-        this.setResizable(false);//ÉèÖÃ´°ÌåÈ¡Ïû×î´ó»¯¼°À­Éì£¨¹Ì¶¨Ô­ÏÈ´°Ìå´óĞ¡£©
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//¹Ø±ÕJAVAĞéÄâ»ú
+        setVisible(true);//è®¾ç½®çª—ä½“ä¸ºå¯è§
+        this.setResizable(false);//è®¾ç½®çª—ä½“å–æ¶ˆæœ€å¤§åŒ–åŠæ‹‰ä¼¸ï¼ˆå›ºå®šåŸå…ˆçª—ä½“å¤§å°ï¼‰
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//å…³é—­JAVAè™šæ‹Ÿæœº
 
 
 
