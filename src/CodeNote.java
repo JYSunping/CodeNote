@@ -10,25 +10,19 @@ import javax.swing.event.*;
 import java.util.*;
 
 public class CodeNote extends JFrame{
-    Vector<String> s=new Vector<String>(Arrays.asList(
-            "choice0","choice1","choice2","choice3","choice4",
-            "choice5","choice6","choice7","choice8","choice9",
-            "choice10","choice11","choice12","choice13","choice14"
-    ));
+    DB db=new DB();
+    Vector<String> s=new Vector<String>(Arrays.asList(db.getList()));
+
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();//面板,装按钮
     JTextArea textEditor =new JTextArea();;//文本域
     JList listCode = new JList(s);//列表
-
-    JScrollPane JSP=new JScrollPane(listCode,
-            JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    JScrollPane JSP= new JScrollPane(listCode);
 
     JButton btnNew;
     JButton btnSave;
     JButton btnDelete;
     JButton btnCheat;
-
     CodeNote(){
         super("CodeNote");
         Container con=getContentPane();
@@ -41,8 +35,9 @@ public class CodeNote extends JFrame{
         listCode.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                textEditor.setText("you selected:" + listCode.getSelectedValue());
+                textEditor.setText(db.getCode(listCode.getSelectedValue().toString()));
             }
+
         });
 
         FlowLayout flow=new FlowLayout();
@@ -62,8 +57,12 @@ public class CodeNote extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String str = JOptionPane.showInputDialog(null, "Enter some text : ", "title", 1);
-                s.add(str);
-                listCode.updateUI();
+                if (db.add(str)) {
+                    s.add(str);
+                    listCode.updateUI();
+                } else {
+                    JOptionPane.showMessageDialog(null, "添加代码失败");
+                }
             }
         });
         btnDelete.addActionListener(new ActionListener() {
@@ -71,41 +70,68 @@ public class CodeNote extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     String item = listCode.getSelectedValue().toString();
+                    db.delete(item);
                     s.remove(item);
                     listCode.updateUI();
-                }
-                catch(Exception ee){
+                } catch (Exception ee) {
                     //ee.printStackTrace();
                 }
+            }
+        });
+        btnSave.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String item = listCode.getSelectedValue().toString();
+                    String newcode=textEditor.getText();
+                    db.edit(item, newcode);
+                } catch (Exception ee) {
+                    //ee.printStackTrace();
+                }
+            }
+        });
+        btnCheat.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[][] code=new String[s.size()][];
+                for(int i=0;i<s.size();i++)code[i]=Similary.prepare(db.getCode(s.get(i)));
+                String simstr="";
+                for(int i=0;i<s.size();i++)for(int j=i+1;j<s.size();j++)
+                {
+                    double sim=Similary.similary(code[i],code[j]);
+                    if(sim>0.7)simstr+="similary of code "+i+" and code "+ j+" is:"+sim+"\n";
+                }
+                if(!simstr.isEmpty())JOptionPane.showMessageDialog(null, simstr);
+                else JOptionPane.showMessageDialog(null, "no similary>0.7");
             }
         });
         p1.setLayout(flow);
         p2.setLayout(null);
         p1.setBounds(0, 1, 100, 139);
         p2.setBounds(0, 141, 100, 439);
-        listCode.setBounds(0, 0, 90, 439);
-        JSP.setBounds(90,0,8,439);
-        textEditor.setBounds(101, 1, 798, 599);
+        JSP.setBounds(0,0,100,430);
+        listCode.setSize(100, 400);
+        textEditor.setBounds(101,1,799,570);
 
-        listCode.setVisibleRowCount(28);//设定列表方框的可见栏数
 
         btnNew.setPreferredSize(new Dimension(100, 30));
         btnSave.setPreferredSize(new Dimension(100, 30));
         btnDelete.setPreferredSize(new Dimension(100, 30));
         btnCheat.setPreferredSize(new Dimension(100, 30));
 
-        con.add(p1);
-        con.add(p2);
+
 
         p1.add(btnNew);
         p1.add(btnSave);
         p1.add(btnDelete);
         p1.add(btnCheat);
-
-        p2.add(listCode);
         p2.add(JSP);
+        con.add(p1);
+        con.add(p2);
+        con.add(textEditor);
 
-        add(textEditor);
+
+
 
         setVisible(true);//设置窗体为可见
         this.setResizable(false);//设置窗体取消最大化及拉伸（固定原先窗体大小）
@@ -116,9 +142,7 @@ public class CodeNote extends JFrame{
     }
 
     public static void main(String[] args) {
-
         CodeNote one = new CodeNote();
-
     }
 
 }
