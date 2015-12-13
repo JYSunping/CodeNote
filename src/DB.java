@@ -1,22 +1,30 @@
 class DB
 {
-    public static boolean add(String name)
+    public DB(String dbfile)
+    {
+
+    }
+    public DB()
+    {
+        this("db.sqlite3");
+    }
+    public boolean add(String name)
     {
         return true;
     }
-    public static void delete(String name)
+    public void delete(String name)
     {
 
     }
-    public static void edit(String name,String code)
+    public void edit(String name,String code)
     {
 
     }
-    public static String getCode(String name)
+    public String getCode(String name)
     {
         return "int main";
     }
-    public static String[] getList()
+    public String[] getList()
     {
         return new String[]{"0-1backpack","SPFA","Dijkstra","ISAP","Dinic","MaxMatch"};
     }
